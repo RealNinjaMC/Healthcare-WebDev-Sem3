@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 import Home from './pages/Home.jsx'
-import About from './pages/About.jsx'
 import Login from './pages/Login.jsx'
 import Book from './pages/Book.jsx'
 import Bookings from './pages/Bookings.jsx'
@@ -58,8 +57,6 @@ export default function App() {
         return <Book user={user} setPage={setPage} initialItemId={chosenItemId} />
       case 'bookings':
         return <Bookings user={user} setPage={setPage} />
-      case 'about':
-        return <About />
       case 'login':
         return <Login onLogin={handleLogin} />
       default:

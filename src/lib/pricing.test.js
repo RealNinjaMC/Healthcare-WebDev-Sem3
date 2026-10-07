@@ -1,23 +1,29 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { calcTotal, formatMoney } from './pricing.js'
+import { calcFee, formatMoney } from './pricing.js'
 
-test('calcTotal adds tax to price times quantity', () => {
-  assert.deepEqual(calcTotal({ price: 500, quantity: 2, taxRate: 0.18 }), {
-    subtotal: 1000,
-    tax: 180,
-    total: 1180,
+test('calcFee charges the full fee for a new visit', () => {
+  assert.deepEqual(calcFee({ price: 600, visitType: 'new', followUpDiscount: 0.5 }), {
+    fee: 600,
+    discount: 0,
+    total: 600,
   })
 })
 
-test('calcTotal returns zeros for invalid quantity instead of NaN', () => {
-  for (const quantity of ['abc', '', 0]) {
-    assert.equal(calcTotal({ price: 500, quantity, taxRate: 0.18 }).total, 0)
-  }
+test('calcFee takes the follow-up discount off', () => {
+  assert.deepEqual(calcFee({ price: 600, visitType: 'followup', followUpDiscount: 0.5 }), {
+    fee: 600,
+    discount: 300,
+    total: 300,
+  })
 })
 
-test('calcTotal rounds to 2 decimals', () => {
-  assert.equal(calcTotal({ price: 99.99, quantity: 3, taxRate: 0.18 }).total, 353.96)
+test('calcFee rounds to 2 decimals', () => {
+  assert.equal(calcFee({ price: 499.99, visitType: 'followup', followUpDiscount: 0.3 }).total, 349.99)
+})
+
+test('calcFee treats a missing price as zero', () => {
+  assert.equal(calcFee({ price: undefined, visitType: 'new', followUpDiscount: 0.5 }).total, 0)
 })
 
 test('formatMoney uses rupee symbol and Indian grouping', () => {

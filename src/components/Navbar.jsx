@@ -5,7 +5,6 @@ const LINKS = [
   { page: 'home', label: 'Home' },
   { page: 'book', label: 'Book' },
   { page: 'bookings', label: `My ${APP.entity.plural}` },
-  { page: 'about', label: 'About' },
 ]
 
 export default function Navbar({ page, setPage, user, onLogout }) {

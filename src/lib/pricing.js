@@ -1,18 +1,11 @@
-import { isIntInRange } from './validators.js'
-
-export const MAX_QUANTITY = 10
-
 function round2(n) {
   return Math.round(n * 100) / 100
 }
 
-export function calcTotal({ price, quantity, taxRate }) {
-  if (!isIntInRange(quantity, 1, MAX_QUANTITY)) {
-    return { subtotal: 0, tax: 0, total: 0 }
-  }
-  const subtotal = round2(price * Number(quantity))
-  const tax = round2(subtotal * taxRate)
-  return { subtotal, tax, total: round2(subtotal + tax) }
+export function calcFee({ price, visitType, followUpDiscount }) {
+  const fee = round2(Number(price) || 0)
+  const discount = visitType === 'followup' ? round2(fee * followUpDiscount) : 0
+  return { fee, discount, total: round2(fee - discount) }
 }
 
 export function formatMoney(amount) {

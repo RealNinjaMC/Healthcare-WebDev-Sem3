@@ -22,10 +22,10 @@ test('list returns newest rows first', async () => {
 })
 
 test('update changes fields and list reflects it', async () => {
-  const row = await create('bookings', { quantity: 1 })
-  const updated = await update('bookings', row.id, { quantity: 3 })
-  assert.equal(updated.quantity, 3)
-  assert.equal((await list('bookings'))[0].quantity, 3)
+  const row = await create('bookings', { slot: '09:00' })
+  const updated = await update('bookings', row.id, { slot: '10:30' })
+  assert.equal(updated.slot, '10:30')
+  assert.equal((await list('bookings'))[0].slot, '10:30')
 })
 
 test('update rejects an unknown id', async () => {
